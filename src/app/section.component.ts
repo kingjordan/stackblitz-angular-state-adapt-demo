@@ -9,18 +9,24 @@ import { SegmentComponent } from './segment.component';
   selector: 'demo-section',
   template: `
   <div class="section-wrap">
-    <div>{{section.title}}  - {{section.type}}</div>
-    @for (segment of segments: track segment.index; let idx = $index) {
-    <div class="segment-wrap">
-      <demo-segment [segment]="segment"/>
-    </div>
+    <h3 class="section-title">{{section.title}}  - {{section.type}}</h3>
+    @if (section.segments && section.segments.length > 0){
+      @for (segment of section.segments; track segment.index; let idx = $index) {
+      <div class="segment-wrap">
+        <demo-segment [segment]="segment"/>
+      </div>
+      }
+    }
   </div>
-  }
   `,
   styles: `
-  .section-wrap{
+  .section-wrap {
     display: flex;
     flex-direction: column;
+  }
+  .section-title {
+    color: darkorange;
+    padding-top: 30px;
   }
   `,
 })

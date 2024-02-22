@@ -6,7 +6,7 @@ import { cell } from '../models/cell';
   standalone: true,
   imports: [CommonModule],
   selector: 'demo-cell',
-  template: `<div>{{cell.name}} </div><div>{{cell.value}} </div>`,
+  template: `<div><strong>{{cell.name}}</strong> </div><div>{{cell.value}} </div>`,
   styles: ``,
 })
 export class CellComponent {

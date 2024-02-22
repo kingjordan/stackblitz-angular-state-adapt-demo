@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { segment } from '../models/segment';
+import { RowComponent } from './row.component';
 
 @Component({
   standalone: true,
@@ -8,18 +9,24 @@ import { segment } from '../models/segment';
   selector: 'demo-segment',
   template: `
   <div class="segment-wrap">
-    <div>{{segment.title}} </div>
-    @for (row of rows: track row.index; let idx = $index) {
-    <div class="row-wrap">
-      <demo-row [row]="row"/>
-    </div>
+    <h4 class="segment-title">{{segment.title}} </h4>
+    @if (segment.rows && segment.rows.length > 0){
+      @for (row of segment.rows; track row.index; let idx = $index) {
+      <div class="row-wrap">
+        <demo-row [row]="row"/>
+      </div>
+      }
+    }
   </div>
-  }
   `,
   styles: `
   .segment-wrap{
     display: flex;
     flex-direction: column;
+    gap:5px;
+  }
+  .segment-title {
+    color: purple;
   }
   `,
 })
