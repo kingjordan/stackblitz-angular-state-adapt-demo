@@ -63,13 +63,15 @@ const cells_3: cell[] = [
     {index: 0, title: 'Section 1', type: 'PRIMARY', segments: segments3};
 
   const section2: section = 
-    {index: 1, title: 'Section 2', type: 'PRIMARY', segments: segments5};
+    {index: 1, title: 'Section 2', type: 'SECONDARY', segments: segments5};
   
   const section3: section = 
-    {index: 2, title: 'Section 3', type: 'SECONDARY', segments: segments7};
+    {index: 2, title: 'Section 3', type: 'TERTIARY', segments: segments7};
 
 export const defaultData: appState = {
     title:'main app data', 
+    demoNumber: 100,
+    isActive: true,
     sections: [
         section1, section2, section3
 ]}

@@ -10,7 +10,7 @@ import { appState } from '../models/app-state';
   selector: 'demo-app',
   template: `
   <h1>Angular State Adapt Demo</h1>
-  <h2>{{appState.title}}</h2>
+  <h2>{{appState.title}} - version: {{appState.demoNumber}} - Is Active: {{appState.isActive}}</h2>
   @if (appState.sections && appState.sections.length > 0){
     @for (section of appState.sections; track section.index; let idx = $index) {
       <div class="section-wrap">
