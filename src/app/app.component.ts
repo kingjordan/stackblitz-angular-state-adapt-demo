@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { SectionComponent } from './section.component';
 import { AppService } from '../+state/app.service';
+import { section1 } from '../+state/default-app-data';
 
 @Component({
   standalone: true,
@@ -16,6 +17,9 @@ import { AppService } from '../+state/app.service';
           <h2>{{ appState.title }}</h2>
           <button type="button" (click)="appService.resetSections$.next()">Reset State</button>
           <button type="button" (click)="appService.clearSections$.next()">Clear Sections</button>
+          <button type="button" (click)="appService.addSectionToEnd$.next(sectionToAdd)">Add Section</button>
+          <button type="button" (click)="appService.collapseAllSections$.next()">Collapse All Sections</button>
+          <button type="button" (click)="appService.expandAllSections$.next()">Expand All Sections</button>
         </div>
         @if (appState.sections && appState.sections.length > 0){ @for (section of appState.sections; track
         section.index; let idx = $index; let first = $first; let last = $last) {
@@ -28,6 +32,7 @@ import { AppService } from '../+state/app.service';
             (moveDown)="appService.moveSectionDown$.next(idx)"
             (moveUp)="appService.moveSectionUp$.next(idx)"
             (remove)="appService.removeSection$.next(idx)"
+            (toggleCollapsed)="appService.toggleCollapsed$.next(idx)"
           />
         </div>
         } } }
@@ -55,6 +60,7 @@ import { AppService } from '../+state/app.service';
     flex-direction: row;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
   }
   .app-content{
     min-width: 550px;
@@ -71,4 +77,5 @@ import { AppService } from '../+state/app.service';
 })
 export class AppComponent {
   public appService = inject(AppService);
+  public sectionToAdd = {...section1, title: 'New Section'};
 }

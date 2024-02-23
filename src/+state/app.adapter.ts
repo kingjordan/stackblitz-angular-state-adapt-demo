@@ -9,7 +9,12 @@ const sectionArrayAdapter = createAdapter<section[]>()({
   incrementIndexOfItem: (state, targetIndex: number) => moveElement(state, targetIndex, targetIndex + 1),
   decrementIndexOfItem: (state, targetIndex: number) => moveElement(state, targetIndex, targetIndex - 1),
   removeElementAtIndex: (state, targetIndex: number) => state.filter((_, i) => i !== targetIndex),
+  toggleCollapsedAtIndex: (state, targetIndex: number) => (
+    state.forEach((s, i) => (i === targetIndex ? (s.isCollapsed = !s.isCollapsed) : s)), state
+  ),
   addElementToEnd: (state, element: section) => [...state, element],
+  collapseAll: (state) => state.map((state) => ({ ...state, isCollapsed: true })),
+  expandAll: (state) => state.map((state) => ({ ...state, isCollapsed: false })),
   clearElements: () => [],
   selectors: {
     sectionLength: (s) => s.length,

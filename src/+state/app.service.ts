@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { adapt } from '@state-adapt/angular';
-import { appState } from '../models/app-state';
-import { section1, section2, section3 } from './default-app-data';
 import { appAdapter, initialState } from './app.adapter';
 import { Source } from '@state-adapt/rxjs';
 import { merge, tap } from 'rxjs';
+import { section } from '../models/section';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +18,10 @@ export class AppService {
   public removeSection$ = new Source<number>('[SECTION] Remove');
   public resetSections$ = new Source<void>('[SECTION] Reset');
   public clearSections$ = new Source<void>('[SECTION] Clear All');
+  public addSectionToEnd$ = new Source<section>('[SECTION] Add to End');
+  public collapseAllSections$ = new Source<void>('[SECTION] Collapse All');
+  public expandAllSections$ = new Source<void>('[SECTION] Expand All');
+  public toggleCollapsed$ = new Source<number>('[SECTION] Toggle Collapsed');
 
   private appStore = adapt(initialState, {
     path: 'app',
@@ -29,6 +32,10 @@ export class AppService {
       removeSectionsElementAtIndex: this.removeSection$,
       clearSectionsElements: this.clearSections$,
       resetSections: this.resetSections$,
+      addSectionsElementToEnd: this.addSectionToEnd$,
+      collapseSectionsAll: this.collapseAllSections$,
+      expandSectionsAll: this.expandAllSections$,
+      toggleSectionsCollapsedAtIndex: this.toggleCollapsed$,
     },
   });
 
@@ -42,10 +49,14 @@ export class AppService {
       this.moveSectionUp$,
       this.removeSection$,
       this.resetSections$,
-      this.clearSections$
+      this.clearSections$,
+      this.addSectionToEnd$,
+      this.collapseAllSections$,
+      this.expandAllSections$,
+      this.toggleCollapsed$
     )
       .pipe(
-        tap((action) => this.actions.push(action.type + ':: Payload(' + (action.payload ? action.payload : 'void') + ')')),
+        tap((action) => this.actions.push(action.type)),
         takeUntilDestroyed()
       )
       .subscribe();

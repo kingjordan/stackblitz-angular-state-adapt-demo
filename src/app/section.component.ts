@@ -18,13 +18,16 @@ import { SegmentComponent } from './segment.component';
         <button type="button" (click)="moveDown.emit(index)">Move Down</button>
         }
         <button type="button" (click)="remove.emit(index)">Remove</button>
+        <button type="button" (click)="toggleCollapsed.emit(index)">
+          {{ section.isCollapsed ? 'Expand' : 'Collapse' }}
+        </button>
       </div>
-      @if (section.segments && section.segments.length > 0){ @for (segment of section.segments; track
-      segment.index; let idx = $index) {
+      @if (!section.isCollapsed) { @if (section.segments && section.segments.length > 0){ @for (segment of
+      section.segments; track segment.index; let idx = $index) {
       <div class="segment-wrap">
         <demo-segment [segment]="segment" />
       </div>
-      } }
+      } } }
     </div>
   `,
   styles: `
@@ -37,10 +40,12 @@ import { SegmentComponent } from './segment.component';
     flex-direction: row;
     gap: 20px;
     align-items: center;
-    padding-top: 30px;
   }
   .section-title {
     color: darkorange;
+  }
+  .segment-wrap {
+    padding-bottom: 30px;
   }
   `,
 })
@@ -57,5 +62,6 @@ export class SectionComponent {
   @Output() moveUp = new EventEmitter<number>();
   @Output() moveDown = new EventEmitter<number>();
   @Output() remove = new EventEmitter<number>();
+  @Output() toggleCollapsed = new EventEmitter<number>();
   constructor() {}
 }
