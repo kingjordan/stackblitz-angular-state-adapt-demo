@@ -5,7 +5,7 @@ import {
   addSegmentToSectionAction,
   appAdapter,
   initialState,
-  removeSegmentFromSectionAction,
+  segmentOfSectionAction,
 } from './app.adapter';
 import { Source } from '@state-adapt/rxjs';
 import { merge, tap } from 'rxjs';
@@ -28,9 +28,11 @@ export class AppService {
   public expandAllSections$ = new Source<void>('[SECTION] Expand All');
   public toggleCollapsed$ = new Source<number>('[SECTION] Toggle Collapsed');
   public addSegmentToSection$ = new Source<addSegmentToSectionAction>('[SECTION] Add Segment to Section');
-  public removeSegmentFromSection$ = new Source<removeSegmentFromSectionAction>(
+  public removeSegmentFromSection$ = new Source<segmentOfSectionAction>(
     '[SECTION] Remove Segment from Section'
   );
+  public moveSegmentUp$ = new Source<segmentOfSectionAction>('[SECTION] Move Segment Up');
+  public moveSegmentDown$ = new Source<segmentOfSectionAction>('[SECTION] Move Segment Down');
 
   private appStore = adapt(initialState, {
     path: 'app',
@@ -47,6 +49,8 @@ export class AppService {
       toggleSectionsCollapsedAtIndex: this.toggleCollapsed$,
       addSectionsSegmentToElementAtIndex: this.addSegmentToSection$,
       removeSectionsSegmentAtIndex: this.removeSegmentFromSection$,
+      incrementSectionsIndexOfSegment: this.moveSegmentDown$,
+      decrementSectionsIndexOfSegment: this.moveSegmentUp$,
     },
   });
 
@@ -66,7 +70,9 @@ export class AppService {
       this.expandAllSections$,
       this.toggleCollapsed$,
       this.addSegmentToSection$,
-      this.removeSegmentFromSection$
+      this.removeSegmentFromSection$,
+      this.moveSegmentUp$,
+      this.moveSegmentDown$
     )
       .pipe(
         tap((action) => console.log(action.type, action.payload ? action.payload : '')),

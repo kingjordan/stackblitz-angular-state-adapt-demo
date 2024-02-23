@@ -41,6 +41,8 @@ import { section } from '../models/section';
               appService.addSegmentToSection$.next({ targetSectionIndex: idx, segment: segmentToAdd })
             "
             (removeSegment)="appService.removeSegmentFromSection$.next($event)"
+            (moveSegmentDown)="appService.moveSegmentDown$.next($event)"
+            (moveSegmentUp)="appService.moveSegmentUp$.next($event)"
           />
         </div>
         } } }

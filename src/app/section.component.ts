@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { section } from '../models/section';
 import { SegmentComponent } from './segment.component';
-import { removeSegmentFromSectionAction } from '../+state/app.adapter';
+import { segmentOfSectionAction } from '../+state/app.adapter';
 
 @Component({
   standalone: true,
@@ -33,6 +33,8 @@ import { removeSegmentFromSectionAction } from '../+state/app.adapter';
           [last]="last"
           [index]="idx"
           (remove)="removeSegment.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
+          (moveUp)="moveSegmentUp.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
+          (moveDown)="moveSegmentDown.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
         />
       </div>
       } } }
@@ -77,6 +79,8 @@ export class SectionComponent {
   @Output() remove = new EventEmitter<number>();
   @Output() toggleCollapsed = new EventEmitter<number>();
   @Output() addSegment = new EventEmitter<number>();
-  @Output() removeSegment = new EventEmitter<removeSegmentFromSectionAction>();
+  @Output() removeSegment = new EventEmitter<segmentOfSectionAction>();
+  @Output() moveSegmentUp = new EventEmitter<segmentOfSectionAction>();
+  @Output() moveSegmentDown = new EventEmitter<segmentOfSectionAction>();
   constructor() {}
 }

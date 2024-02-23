@@ -11,9 +11,15 @@ export interface addSegmentToSectionAction {
   segment: segment;
 }
 
-export interface removeSegmentFromSectionAction {
+export interface segmentOfSectionAction {
   targetSectionIndex: number;
   targetSegmentIndex: number;
+}
+
+export interface rowOfSegmentOfSectionAction {
+  targetSectionIndex: number;
+  targetSegmentIndex: number;
+  targetRowIndex: number;
 }
 
 const sectionArrayAdapter = createAdapter<section[]>()({
@@ -32,9 +38,25 @@ const sectionArrayAdapter = createAdapter<section[]>()({
   addSegmentToElementAtIndex: (state, action: addSegmentToSectionAction) => (
     state.forEach((s, i) => (i === action.targetSectionIndex ? s.segments.push(action.segment) : s)), state
   ),
-  removeSegmentAtIndex: (state, action: removeSegmentFromSectionAction) => (
+  removeSegmentAtIndex: (state, action: segmentOfSectionAction) => (
     (state[action.targetSectionIndex].segments = state[action.targetSectionIndex].segments.filter(
       (_, i) => i !== action.targetSegmentIndex
+    )),
+    state
+  ),
+  decrementIndexOfSegment: (state, action: segmentOfSectionAction) => (
+    (state[action.targetSectionIndex].segments = moveElement(
+      state[action.targetSectionIndex].segments,
+      action.targetSegmentIndex,
+      action.targetSegmentIndex - 1
+    )),
+    state
+  ),
+  incrementIndexOfSegment: (state, action: segmentOfSectionAction) => (
+    (state[action.targetSectionIndex].segments = moveElement(
+      state[action.targetSectionIndex].segments,
+      action.targetSegmentIndex,
+      action.targetSegmentIndex +1
     )),
     state
   ),
