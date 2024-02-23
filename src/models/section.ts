@@ -3,6 +3,6 @@ import { segment } from './segment';
 export interface section {
   index: number;
   title: string;
-  type: 'PRIMARY' | 'SECONDARY' | 'TERTIARY';
+  type: 'PRIMARY' | 'SECONDARY';
   segments: segment[];
 }

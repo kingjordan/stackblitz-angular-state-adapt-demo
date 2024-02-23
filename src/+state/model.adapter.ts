@@ -1,15 +1,8 @@
-import { createAdapter, joinAdapters } from "@state-adapt/core";
-import {
-    booleanAdapter,
-    numberAdapter,
-    stringAdapter
-  } from '@state-adapt/core/adapters';
+import { createAdapter } from "@state-adapt/core";
 import { cell } from "../models/cell";
 import { row } from "../models/row";
 import { segment } from "../models/segment";
 import { section } from "../models/section";
-import { appState } from "../models/app-state";
-
 
 const cellAdapter = createAdapter<cell>()({
     setName: (state, name: string) => ({...state, name: name}),
@@ -55,11 +48,5 @@ const sectionAdapter = createAdapter<section>()({
     }
 })
 
-const appAdapter = joinAdapters<appState>()({
-    demoNumber: numberAdapter,
-    isActive:  booleanAdapter,
-    title: stringAdapter,
-    sections: createAdapter<section[]>()({}),
-})
 
 
