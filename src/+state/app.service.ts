@@ -27,12 +27,13 @@ export class AppService {
   public collapseAllSections$ = new Source<void>('[SECTION] Collapse All');
   public expandAllSections$ = new Source<void>('[SECTION] Expand All');
   public toggleCollapsed$ = new Source<number>('[SECTION] Toggle Collapsed');
-  public addSegmentToSection$ = new Source<addSegmentToSectionAction>('[SECTION] Add Segment to Section');
+  public addSegmentToSection$ = new Source<addSegmentToSectionAction>('[SEGMENT] Add Segment to Section');
   public removeSegmentFromSection$ = new Source<segmentOfSectionAction>(
-    '[SECTION] Remove Segment from Section'
+    '[SEGMENT] Remove Segment from Section'
   );
-  public moveSegmentUp$ = new Source<segmentOfSectionAction>('[SECTION] Move Segment Up');
-  public moveSegmentDown$ = new Source<segmentOfSectionAction>('[SECTION] Move Segment Down');
+  public moveSegmentUp$ = new Source<segmentOfSectionAction>('[SEGMENT] Move Segment Up');
+  public moveSegmentDown$ = new Source<segmentOfSectionAction>('[SEGMENT] Move Segment Down');
+  public toggleSegmentCollapsed$ = new Source<segmentOfSectionAction>('[SEGMENT] Toggle Segment Collapsed');
 
   private appStore = adapt(initialState, {
     path: 'app',
@@ -51,6 +52,7 @@ export class AppService {
       removeSectionsSegmentAtIndex: this.removeSegmentFromSection$,
       incrementSectionsIndexOfSegment: this.moveSegmentDown$,
       decrementSectionsIndexOfSegment: this.moveSegmentUp$,
+      toggleSectionsSegmentCollapsedAtIndex: this.toggleSegmentCollapsed$,
     },
   });
 
@@ -72,7 +74,8 @@ export class AppService {
       this.addSegmentToSection$,
       this.removeSegmentFromSection$,
       this.moveSegmentUp$,
-      this.moveSegmentDown$
+      this.moveSegmentDown$,
+      this.toggleSegmentCollapsed$
     )
       .pipe(
         tap((action) => console.log(action.type, action.payload ? action.payload : '')),

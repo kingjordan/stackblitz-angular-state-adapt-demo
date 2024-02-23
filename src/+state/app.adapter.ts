@@ -56,8 +56,13 @@ const sectionArrayAdapter = createAdapter<section[]>()({
     (state[action.targetSectionIndex].segments = moveElement(
       state[action.targetSectionIndex].segments,
       action.targetSegmentIndex,
-      action.targetSegmentIndex +1
+      action.targetSegmentIndex + 1
     )),
+    state
+  ),
+  toggleSegmentCollapsedAtIndex: (state, action: segmentOfSectionAction) => (
+    (state[action.targetSectionIndex].segments[action.targetSegmentIndex].isCollapsed =
+      !state[action.targetSectionIndex].segments[action.targetSegmentIndex].isCollapsed),
     state
   ),
   // ** SELECTORS **

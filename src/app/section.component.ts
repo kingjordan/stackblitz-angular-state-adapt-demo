@@ -35,6 +35,7 @@ import { segmentOfSectionAction } from '../+state/app.adapter';
           (remove)="removeSegment.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
           (moveUp)="moveSegmentUp.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
           (moveDown)="moveSegmentDown.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
+          (toggleCollapsed)="toggleSegmentCollapsed.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
         />
       </div>
       } } }
@@ -82,5 +83,6 @@ export class SectionComponent {
   @Output() removeSegment = new EventEmitter<segmentOfSectionAction>();
   @Output() moveSegmentUp = new EventEmitter<segmentOfSectionAction>();
   @Output() moveSegmentDown = new EventEmitter<segmentOfSectionAction>();
+  @Output() toggleSegmentCollapsed = new EventEmitter<segmentOfSectionAction>();
   constructor() {}
 }

@@ -43,6 +43,7 @@ import { section } from '../models/section';
             (removeSegment)="appService.removeSegmentFromSection$.next($event)"
             (moveSegmentDown)="appService.moveSegmentDown$.next($event)"
             (moveSegmentUp)="appService.moveSegmentUp$.next($event)"
+            (toggleSegmentCollapsed)="appService.toggleSegmentCollapsed$.next($event)"
           />
         </div>
         } } }
