@@ -34,18 +34,23 @@ import { SegmentComponent } from './segment.component';
   .section-wrap {
     display: flex;
     flex-direction: column;
+    border: 1px solid #ffdfab;
+    margin: 5px 0;
   }
   .section-header {
     display: flex;
     flex-direction: row;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
+    padding: 0px 0 10px 20px;
+    background-color: #fffcf7
   }
   .section-title {
     color: darkorange;
   }
   .segment-wrap {
-    padding-bottom: 30px;
+    padding: 0 0 30px 30px;
   }
   `,
 })

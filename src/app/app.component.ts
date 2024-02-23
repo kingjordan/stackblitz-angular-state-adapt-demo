@@ -61,9 +61,12 @@ import { section1 } from '../+state/default-app-data';
     gap: 20px;
     align-items: center;
     flex-wrap: wrap;
+    background-color: #fafcff;
+    padding: 0px 0 20px 20px;
+
   }
   .app-content{
-    min-width: 550px;
+    width: 500px;
   }
   .app-actions{
     min-width: 250px;

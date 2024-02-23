@@ -60,13 +60,13 @@ const segments7: segment[] = [
 ]
 
 export const section1: section = 
-  {index: 0, title: 'Section 1', type: 'PRIMARY', segments: segments3};
+  {index: 0, title: 'Section 1', type: 'PRIMARY', segments: segments3, isCollapsed: false};
 
 export const section2: section = 
-  {index: 1, title: 'Section 2', type: 'PRIMARY', segments: segments5};
+  {index: 1, title: 'Section 2', type: 'PRIMARY', segments: segments5, isCollapsed: false};
 
 export const section3: section = 
-  {index: 2, title: 'Section 3', type: 'SECONDARY', segments: segments7};
+  {index: 2, title: 'Section 3', type: 'SECONDARY', segments: segments7, isCollapsed: false};
 
 export const defaultData: appState = {
     title:'main app data', 
