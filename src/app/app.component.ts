@@ -37,7 +37,10 @@ import { section } from '../models/section';
             (moveUp)="appService.moveSectionUp$.next(idx)"
             (remove)="appService.removeSection$.next(idx)"
             (toggleCollapsed)="appService.toggleCollapsed$.next(idx)"
-            (addSegment)="appService.addSegmentToSection$.next({ targetSectionIndex: idx, segment: segmentToAdd })"
+            (addSegment)="
+              appService.addSegmentToSection$.next({ targetSectionIndex: idx, segment: segmentToAdd })
+            "
+            (removeSegment)="appService.removeSegmentFromSection$.next($event)"
           />
         </div>
         } } }

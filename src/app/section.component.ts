@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { section } from '../models/section';
 import { SegmentComponent } from './segment.component';
+import { removeSegmentFromSectionAction } from '../+state/app.adapter';
 
 @Component({
   standalone: true,
@@ -26,7 +27,13 @@ import { SegmentComponent } from './segment.component';
       @if (!section.isCollapsed) { @if (section.segments && section.segments.length > 0){ @for (segment of
       section.segments; track segment.index; let idx = $index; let first = $first; let last = $last) {
       <div class="segment-wrap">
-        <demo-segment [segment]="segment" [first]="first" [last]="last" [index]="idx" />
+        <demo-segment
+          [segment]="segment"
+          [first]="first"
+          [last]="last"
+          [index]="idx"
+          (remove)="removeSegment.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
+        />
       </div>
       } } }
     </div>
@@ -70,5 +77,6 @@ export class SectionComponent {
   @Output() remove = new EventEmitter<number>();
   @Output() toggleCollapsed = new EventEmitter<number>();
   @Output() addSegment = new EventEmitter<number>();
+  @Output() removeSegment = new EventEmitter<removeSegmentFromSectionAction>();
   constructor() {}
 }
