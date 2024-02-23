@@ -51,6 +51,9 @@ import { section } from '../models/section';
                 row: rowToAdd
               })
             "
+            (moveRowUp)="appService.moveRowUp$.next($event)"
+            (moveRowDown)="appService.moveRowDown$.next($event)"
+            (removeRow)="appService.removeRow$.next($event)"
           />
         </div>
         } } }
@@ -132,7 +135,6 @@ export class AppComponent {
       },
     ],
   };
-
   public rowToAdd = {
     index: 0,
     title: 'New Row',

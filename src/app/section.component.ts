@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { section } from '../models/section';
 import { SegmentComponent } from './segment.component';
-import { segmentOfSectionAction } from '../+state/app.adapter';
+import { rowOfSegmentOfSectionAction, segmentOfSectionAction } from '../+state/app.adapter';
 
 @Component({
   standalone: true,
@@ -12,13 +12,13 @@ import { segmentOfSectionAction } from '../+state/app.adapter';
     <div class="section-wrap">
       <div class="section-header">
         <h3 class="section-title">{{ section.title }} - {{ section.type }}</h3>
-        <strong>Index <{{ index }}> objIdx: {{section.index}}</strong>
+        <strong>Index <{{ index }}> objIdx: {{ section.index }}</strong>
         @if (!first) {
-        <button type="button" (click)="moveUp.emit(index)">Move Up</button>
+        <button type="button" (click)="moveUp.emit(index)">Up</button>
         } @if (!last) {
-        <button type="button" (click)="moveDown.emit(index)">Move Down</button>
+        <button type="button" (click)="moveDown.emit(index)">Down</button>
         }
-        <button type="button" (click)="remove.emit(index)">Remove</button>
+        <button type="button" (click)="remove.emit(index)">Delete</button>
         <button type="button" (click)="toggleCollapsed.emit(index)">
           {{ section.isCollapsed ? 'Expand' : 'Collapse' }}
         </button>
@@ -35,8 +35,31 @@ import { segmentOfSectionAction } from '../+state/app.adapter';
           (remove)="removeSegment.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
           (moveUp)="moveSegmentUp.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
           (moveDown)="moveSegmentDown.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
-          (toggleCollapsed)="toggleSegmentCollapsed.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
+          (toggleCollapsed)="
+            toggleSegmentCollapsed.emit({ targetSectionIndex: index, targetSegmentIndex: $event })
+          "
           (addRow)="addRowToSegment.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
+          (moveRowUp)="
+            moveRowUp.emit({
+              targetSectionIndex: index,
+              targetSegmentIndex: $event.targetSegmentIndex,
+              targetRowIndex: $event.targetRowIndex
+            })
+          "
+          (moveRowDown)="
+            moveRowDown.emit({
+              targetSectionIndex: index,
+              targetSegmentIndex: $event.targetSegmentIndex,
+              targetRowIndex: $event.targetRowIndex
+            })
+          "
+          (removeRow)="
+            removeRow.emit({
+              targetSectionIndex: index,
+              targetSegmentIndex: $event.targetSegmentIndex,
+              targetRowIndex: $event.targetRowIndex
+            })
+          "
         />
       </div>
       } } }
@@ -86,4 +109,7 @@ export class SectionComponent {
   @Output() moveSegmentDown = new EventEmitter<segmentOfSectionAction>();
   @Output() toggleSegmentCollapsed = new EventEmitter<segmentOfSectionAction>();
   @Output() addRowToSegment = new EventEmitter<segmentOfSectionAction>();
+  @Output() moveRowUp = new EventEmitter<rowOfSegmentOfSectionAction>();
+  @Output() moveRowDown = new EventEmitter<rowOfSegmentOfSectionAction>();
+  @Output() removeRow = new EventEmitter<rowOfSegmentOfSectionAction>();
 }

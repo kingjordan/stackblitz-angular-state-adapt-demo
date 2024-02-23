@@ -6,6 +6,7 @@ import {
   addSegmentToSectionAction,
   appAdapter,
   initialState,
+  rowOfSegmentOfSectionAction,
   segmentOfSectionAction,
 } from './app.adapter';
 import { Source } from '@state-adapt/rxjs';
@@ -19,15 +20,16 @@ export class AppService {
   public actions: string[] = ['@@INIT', 'INIT App'];
 
   /** ACTIONS */
+  public resetSections$ = new Source<void>('[APP STATE] Reset');
+  public clearSections$ = new Source<void>('[APP STATE] Clear All');
   public moveSectionUp$ = new Source<number>('[SECTION] Move Up');
   public moveSectionDown$ = new Source<number>('[SECTION] Move Down');
   public removeSection$ = new Source<number>('[SECTION] Remove');
-  public resetSections$ = new Source<void>('[SECTION] Reset');
-  public clearSections$ = new Source<void>('[SECTION] Clear All');
   public addSectionToEnd$ = new Source<section>('[SECTION] Add to End');
   public collapseAllSections$ = new Source<void>('[SECTION] Collapse All');
   public expandAllSections$ = new Source<void>('[SECTION] Expand All');
   public toggleCollapsed$ = new Source<number>('[SECTION] Toggle Collapsed');
+  // SEGMENT ACTIONS
   public addSegmentToSection$ = new Source<addSegmentToSectionAction>('[SEGMENT] Add Segment to Section');
   public removeSegmentFromSection$ = new Source<segmentOfSectionAction>(
     '[SEGMENT] Remove Segment from Section'
@@ -35,7 +37,11 @@ export class AppService {
   public moveSegmentUp$ = new Source<segmentOfSectionAction>('[SEGMENT] Move Segment Up');
   public moveSegmentDown$ = new Source<segmentOfSectionAction>('[SEGMENT] Move Segment Down');
   public toggleSegmentCollapsed$ = new Source<segmentOfSectionAction>('[SEGMENT] Toggle Segment Collapsed');
+  // ROW ACTIONS
   public addRowToSegment$ = new Source<addRowToSegmentAction>('[ROW] Add Row to Segment');
+  public moveRowUp$ = new Source<rowOfSegmentOfSectionAction>('[ROW] Move Row Up');
+  public moveRowDown$ = new Source<rowOfSegmentOfSectionAction>('[ROW] Move Row Down');
+  public removeRow$ = new Source<rowOfSegmentOfSectionAction>('[ROW] Remove Row');
 
   private appStore = adapt(initialState, {
     path: 'app',
@@ -56,6 +62,9 @@ export class AppService {
       decrementSectionsIndexOfSegment: this.moveSegmentUp$,
       toggleSectionsSegmentCollapsedAtIndex: this.toggleSegmentCollapsed$,
       addSectionsRowToSegmentEnd: this.addRowToSegment$,
+      decrementSectionsIndexOfRow: this.moveRowUp$,
+      incrementSectionsIndexOfRow: this.moveRowDown$,
+      removeSectionsRowAtIndex: this.removeRow$,
     },
   });
 
@@ -79,7 +88,10 @@ export class AppService {
       this.moveSegmentUp$,
       this.moveSegmentDown$,
       this.toggleSegmentCollapsed$,
-      this.addRowToSegment$
+      this.addRowToSegment$,
+      this.moveRowUp$,
+      this.moveRowDown$,
+      this.removeRow$
     )
       .pipe(
         tap((action) => console.log(action.type, action.payload ? action.payload : '')),

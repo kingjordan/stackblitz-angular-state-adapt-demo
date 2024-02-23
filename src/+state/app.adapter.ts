@@ -72,14 +72,37 @@ const sectionArrayAdapter = createAdapter<section[]>()({
       !state[action.targetSectionIndex].segments[action.targetSegmentIndex].isCollapsed),
     state
   ),
+      // ** ROWS **
   addRowToSegmentEnd: (state, action: addRowToSegmentAction) => (
     state[action.targetSectionIndex].segments[action.targetSegmentIndex].rows.push(action.row), state
   ),
-  // ** SELECTORS **
-  selectors: {
-    sectionLength: (s) => s.length,
-    sectionElements: (s) => s,
-  },
+  decrementIndexOfRow: (state, action: rowOfSegmentOfSectionAction) => (
+    (state[action.targetSectionIndex].segments[action.targetSegmentIndex].rows = moveElement(
+      state[action.targetSectionIndex].segments[action.targetSegmentIndex].rows,
+      action.targetRowIndex,
+      action.targetRowIndex - 1
+    )),
+    state
+  ),
+  incrementIndexOfRow: (state, action: rowOfSegmentOfSectionAction) => (
+    (state[action.targetSectionIndex].segments[action.targetSegmentIndex].rows = moveElement(
+      state[action.targetSectionIndex].segments[action.targetSegmentIndex].rows,
+      action.targetRowIndex,
+      action.targetRowIndex + 1
+    )),
+    state
+  ),
+  removeRowAtIndex: (state, action: rowOfSegmentOfSectionAction) => (
+    (state[action.targetSectionIndex].segments[action.targetSegmentIndex].rows = state[
+      action.targetSectionIndex
+    ].segments[action.targetSegmentIndex].rows.filter((_, i) => i !== action.targetRowIndex)),
+    state
+  ),
+    // ** SELECTORS **
+    selectors: {
+      sectionLength: (s) => s.length,
+      sectionElements: (s) => s,
+    },
 });
 
 export const initialState: appState = {
