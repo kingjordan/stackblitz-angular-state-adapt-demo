@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { SectionComponent } from './section.component';
 import { AppService } from '../+state/app.service';
-import { section1 } from '../+state/default-app-data';
+import { rows3, section1, segments3 } from '../+state/default-app-data';
+import { segment } from '../models/segment';
+import { section } from '../models/section';
 
 @Component({
   standalone: true,
@@ -18,7 +20,9 @@ import { section1 } from '../+state/default-app-data';
           <button type="button" (click)="appService.resetSections$.next()">Reset State</button>
           <button type="button" (click)="appService.clearSections$.next()">Clear Sections</button>
           <button type="button" (click)="appService.addSectionToEnd$.next(sectionToAdd)">Add Section</button>
-          <button type="button" (click)="appService.collapseAllSections$.next()">Collapse All Sections</button>
+          <button type="button" (click)="appService.collapseAllSections$.next()">
+            Collapse All Sections
+          </button>
           <button type="button" (click)="appService.expandAllSections$.next()">Expand All Sections</button>
         </div>
         @if (appState.sections && appState.sections.length > 0){ @for (section of appState.sections; track
@@ -33,6 +37,7 @@ import { section1 } from '../+state/default-app-data';
             (moveUp)="appService.moveSectionUp$.next(idx)"
             (remove)="appService.removeSection$.next(idx)"
             (toggleCollapsed)="appService.toggleCollapsed$.next(idx)"
+            (addSegment)="appService.addSegmentToSection$.next({ targetSectionIndex: idx, segment: segmentToAdd })"
           />
         </div>
         } } }
@@ -53,12 +58,12 @@ import { section1 } from '../+state/default-app-data';
   .app-wrapper {
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    gap: 20px;
   }
   .app-header {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     flex-wrap: wrap;
     background-color: #fafcff;
@@ -66,7 +71,7 @@ import { section1 } from '../+state/default-app-data';
 
   }
   .app-content{
-    width: 500px;
+    width: 600px;
   }
   .app-actions{
     min-width: 250px;
@@ -80,5 +85,6 @@ import { section1 } from '../+state/default-app-data';
 })
 export class AppComponent {
   public appService = inject(AppService);
-  public sectionToAdd = {...section1, title: 'New Section'};
+  public sectionToAdd: section = { ...section1, title: 'New Section' };
+  public segmentToAdd: segment = { index: 0, title: 'New Segment', rows: rows3 };
 }
