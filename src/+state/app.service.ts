@@ -5,11 +5,13 @@ import { appState } from '../models/app-state';
 import { section1, section2, section3 } from './default-app-data';
 import { appAdapter, initialState } from './app.adapter';
 import { Source } from '@state-adapt/rxjs';
+import { merge, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
+  public actions: string[] = ['@@INIT', 'INIT App'];
 
   /** ACTIONS */
   public moveSectionUp$ = new Source<number>('[SECTION] Move Up');
@@ -34,5 +36,18 @@ export class AppService {
 
   constructor() {
     this.appStore.state$.pipe(takeUntilDestroyed()).subscribe();
+
+    merge(
+      this.moveSectionDown$,
+      this.moveSectionUp$,
+      this.removeSection$,
+      this.resetSections$,
+      this.clearSections$
+    )
+      .pipe(
+        tap((action) => this.actions.push(action.type + ':: Payload(' + (action.payload ? action.payload : 'void') + ')')),
+        takeUntilDestroyed()
+      )
+      .subscribe();
   }
 }
