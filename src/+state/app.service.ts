@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { adapt } from '@state-adapt/angular';
 import {
+  addRowToSegmentAction,
   addSegmentToSectionAction,
   appAdapter,
   initialState,
@@ -34,6 +35,7 @@ export class AppService {
   public moveSegmentUp$ = new Source<segmentOfSectionAction>('[SEGMENT] Move Segment Up');
   public moveSegmentDown$ = new Source<segmentOfSectionAction>('[SEGMENT] Move Segment Down');
   public toggleSegmentCollapsed$ = new Source<segmentOfSectionAction>('[SEGMENT] Toggle Segment Collapsed');
+  public addRowToSegment$ = new Source<addRowToSegmentAction>('[ROW] Add Row to Segment');
 
   private appStore = adapt(initialState, {
     path: 'app',
@@ -53,6 +55,7 @@ export class AppService {
       incrementSectionsIndexOfSegment: this.moveSegmentDown$,
       decrementSectionsIndexOfSegment: this.moveSegmentUp$,
       toggleSectionsSegmentCollapsedAtIndex: this.toggleSegmentCollapsed$,
+      addSectionsRowToSegmentEnd: this.addRowToSegment$,
     },
   });
 
@@ -75,7 +78,8 @@ export class AppService {
       this.removeSegmentFromSection$,
       this.moveSegmentUp$,
       this.moveSegmentDown$,
-      this.toggleSegmentCollapsed$
+      this.toggleSegmentCollapsed$,
+      this.addRowToSegment$
     )
       .pipe(
         tap((action) => console.log(action.type, action.payload ? action.payload : '')),

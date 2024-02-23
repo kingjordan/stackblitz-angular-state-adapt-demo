@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { segment } from '../models/segment';
 import { RowComponent } from './row.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -10,8 +11,8 @@ import { RowComponent } from './row.component';
   template: `
     <div class="segment-wrap">
       <div class="segment-header">
-        <strong>Index <{{ index }}> </strong>
         <h4 class="segment-title">{{ segment.title }}</h4>
+        <strong>Index <{{ index }}> objIdx: {{segment.index}} </strong>
         @if (!first) {
         <button type="button" (click)="moveUp.emit(index)">Move Up</button>
         } @if (!last) {
@@ -24,11 +25,11 @@ import { RowComponent } from './row.component';
         <button type="button" (click)="addRow.emit(index)">Add Row</button>
       </div>
       @if (!segment.isCollapsed) { @if (segment.rows && segment.rows.length > 0){ @for (row of segment.rows;
-      track row.index; let idx = $index) {
+      track row; let idx = $index; let first = $first; let last = $last) {
       <div class="row-wrap">
-        <demo-row [row]="row" />
+        <demo-row [row]="row" [first]="first" [last]="last" [index]="idx" />
       </div>
-      } }}
+      } } }
     </div>
   `,
   styles: `
@@ -50,7 +51,7 @@ import { RowComponent } from './row.component';
     color: purple;
   }
   .row-wrap {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 10px;
   }
   `,
 })

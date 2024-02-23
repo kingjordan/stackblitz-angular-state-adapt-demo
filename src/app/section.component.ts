@@ -11,8 +11,8 @@ import { segmentOfSectionAction } from '../+state/app.adapter';
   template: `
     <div class="section-wrap">
       <div class="section-header">
-        <strong>Index <{{ index }}> </strong>
         <h3 class="section-title">{{ section.title }} - {{ section.type }}</h3>
+        <strong>Index <{{ index }}> objIdx: {{section.index}}</strong>
         @if (!first) {
         <button type="button" (click)="moveUp.emit(index)">Move Up</button>
         } @if (!last) {
@@ -36,6 +36,7 @@ import { segmentOfSectionAction } from '../+state/app.adapter';
           (moveUp)="moveSegmentUp.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
           (moveDown)="moveSegmentDown.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
           (toggleCollapsed)="toggleSegmentCollapsed.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
+          (addRow)="addRowToSegment.emit({ targetSectionIndex: index, targetSegmentIndex: $event })"
         />
       </div>
       } } }
@@ -61,7 +62,7 @@ import { segmentOfSectionAction } from '../+state/app.adapter';
     color: darkorange;
   }
   .segment-wrap {
-    padding: 0 0 30px 30px;
+    padding: 0 0 30px 10px;
   }
   `,
 })
@@ -84,5 +85,5 @@ export class SectionComponent {
   @Output() moveSegmentUp = new EventEmitter<segmentOfSectionAction>();
   @Output() moveSegmentDown = new EventEmitter<segmentOfSectionAction>();
   @Output() toggleSegmentCollapsed = new EventEmitter<segmentOfSectionAction>();
-  constructor() {}
+  @Output() addRowToSegment = new EventEmitter<segmentOfSectionAction>();
 }

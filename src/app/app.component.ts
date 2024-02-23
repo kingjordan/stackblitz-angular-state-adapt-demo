@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { SectionComponent } from './section.component';
 import { AppService } from '../+state/app.service';
-import { rows3, section1, segments3 } from '../+state/default-app-data';
+import { section1 } from '../+state/default-app-data';
 import { segment } from '../models/segment';
 import { section } from '../models/section';
 
@@ -44,6 +44,13 @@ import { section } from '../models/section';
             (moveSegmentDown)="appService.moveSegmentDown$.next($event)"
             (moveSegmentUp)="appService.moveSegmentUp$.next($event)"
             (toggleSegmentCollapsed)="appService.toggleSegmentCollapsed$.next($event)"
+            (addRowToSegment)="
+              appService.addRowToSegment$.next({
+                targetSectionIndex: $event.targetSectionIndex,
+                targetSegmentIndex: $event.targetSegmentIndex,
+                row: rowToAdd
+              })
+            "
           />
         </div>
         } } }
@@ -77,7 +84,7 @@ import { section } from '../models/section';
 
   }
   .app-content{
-    width: 600px;
+    width: 700px;
   }
   .app-actions{
     min-width: 250px;
@@ -92,5 +99,47 @@ import { section } from '../models/section';
 export class AppComponent {
   public appService = inject(AppService);
   public sectionToAdd: section = { ...section1, title: 'New Section' };
-  public segmentToAdd: segment = { index: 0, title: 'New Segment', rows: rows3 };
+  public segmentToAdd: segment = {
+    index: 0,
+    title: 'New Segment',
+    rows: [
+      {
+        index: 0,
+        title: 'new row A',
+        cells: [
+          { name: 'one', value: 10 },
+          { name: 'two', value: 20 },
+          { name: 'three', value: 30 },
+        ],
+      },
+      {
+        index: 1,
+        title: 'new row B',
+        cells: [
+          { name: 'one', value: 10 },
+          { name: 'two', value: 20 },
+          { name: 'three', value: 30 },
+        ],
+      },
+      {
+        index: 2,
+        title: 'new row C',
+        cells: [
+          { name: 'one', value: 10 },
+          { name: 'two', value: 20 },
+          { name: 'three', value: 30 },
+        ],
+      },
+    ],
+  };
+
+  public rowToAdd = {
+    index: 0,
+    title: 'New Row',
+    cells: [
+      { name: 'one', value: 10 },
+      { name: 'two', value: 20 },
+      { name: 'three', value: 30 },
+    ],
+  };
 }

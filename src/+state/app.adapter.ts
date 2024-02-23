@@ -5,6 +5,7 @@ import { appState } from '../models/app-state';
 import { baseStringAdapter } from '@state-adapt/core/adapters';
 import { section1, section2, section3 } from './default-app-data';
 import { segment } from '../models/segment';
+import { row } from '../models/row';
 
 export interface addSegmentToSectionAction {
   targetSectionIndex: number;
@@ -14,6 +15,12 @@ export interface addSegmentToSectionAction {
 export interface segmentOfSectionAction {
   targetSectionIndex: number;
   targetSegmentIndex: number;
+}
+
+export interface addRowToSegmentAction {
+  targetSectionIndex: number;
+  targetSegmentIndex: number;
+  row: row;
 }
 
 export interface rowOfSegmentOfSectionAction {
@@ -64,6 +71,9 @@ const sectionArrayAdapter = createAdapter<section[]>()({
     (state[action.targetSectionIndex].segments[action.targetSegmentIndex].isCollapsed =
       !state[action.targetSectionIndex].segments[action.targetSegmentIndex].isCollapsed),
     state
+  ),
+  addRowToSegmentEnd: (state, action: addRowToSegmentAction) => (
+    state[action.targetSectionIndex].segments[action.targetSegmentIndex].rows.push(action.row), state
   ),
   // ** SELECTORS **
   selectors: {
